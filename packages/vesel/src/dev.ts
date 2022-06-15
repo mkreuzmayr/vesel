@@ -6,17 +6,35 @@ import { createServer as createViteServer } from 'vite';
 import { createBrowserWindowPatcher } from './browserWindowPatcher';
 import { VeselConfig } from './config';
 import { createElectronInstance } from './electron';
+import { sleep } from './utils';
 
 export async function watchMain(config: VeselConfig) {
   const mainConfig = config.main;
+
+  const hasNativeNodeModulesPlugin = mainConfig.esbuild.plugins?.some(
+    (plugin) => plugin.name === 'vesel-native-node-modules'
+  );
 
   const electron = createElectronInstance({
     workingDirectory: process.cwd(),
     entryFile: path.join(mainConfig.outdirDev, 'index.js'),
   });
 
-  async function copyDev() {
-    await move(mainConfig.tempdir, mainConfig.outdirDev, { overwrite: true });
+  async function copyDev(retries: number = 0) {
+    try {
+      await move(mainConfig.tempdir, mainConfig.outdirDev, { overwrite: true });
+    } catch (err) {
+      // if native node module support is enabled
+      // wait until electron app has released resources
+      if (hasNativeNodeModulesPlugin && retries < 3) {
+        await sleep(150 * 2 ** retries);
+        await copyDev(retries + 1);
+      } else {
+        console.log(
+          chalk.red(`Failed to copy dev files to ${mainConfig.outdirDev}`)
+        );
+      }
+    }
   }
 
   const browserWindowPatcher = createBrowserWindowPatcher(config, 'dev');
