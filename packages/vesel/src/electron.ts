@@ -1,5 +1,6 @@
-import { ChildProcess, spawn, spawnSync } from 'node:child_process';
+import { ChildProcess, spawn } from 'node:child_process';
 import path from 'node:path';
+import { killChildProcess } from './utils';
 
 const binName = process.platform === 'win32' ? 'electron.cmd' : 'electron';
 const binNodeModulesPath = path.join('node_modules', '.bin', binName);
@@ -40,12 +41,7 @@ export function createElectronInstance(options: ElectronInstanceOptions) {
 
   function stop(): void {
     if (electronProcess) {
-      if (process.platform === 'win32') {
-        spawnSync('taskkill', ['/pid', `${electronProcess.pid}`, '/f', '/t']);
-      } else {
-        electronProcess.kill();
-      }
-    } else {
+      killChildProcess(electronProcess);
     }
   }
 
