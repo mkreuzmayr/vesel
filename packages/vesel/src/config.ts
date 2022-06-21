@@ -5,7 +5,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { UserConfig } from 'vite';
 import { externalizeDeps, replaceImportMeta } from './esBuildPlugins';
-import { dynamicImport, PartialDeep } from './utils';
+import { dynamicImport } from './utils';
 
 export type VeselConfig = {
   main: {
@@ -18,7 +18,16 @@ export type VeselConfig = {
   };
 };
 
-export type VeselUserConfig = PartialDeep<VeselConfig>;
+export type VeselUserConfig = {
+  main?: {
+    outdirDev?: string;
+    tempdir?: string;
+    esbuild?: BuildOptions;
+  };
+  renderer?: {
+    vite?: UserConfig;
+  };
+};
 
 const defaultConfig: VeselConfig = {
   main: {
