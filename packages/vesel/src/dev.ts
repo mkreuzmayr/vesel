@@ -3,9 +3,9 @@ import { build as esbuild } from 'esbuild';
 import { move } from 'fs-extra';
 import path from 'node:path';
 import { createServer as createViteServer } from 'vite';
-import { createBrowserWindowPatcher } from './browserWindowPatcher';
 import { VeselConfig } from './config';
 import { createElectronInstance } from './electron';
+import { createBrowserWindowPatcher } from './esbuild-plugins';
 import { sleep } from './utils';
 
 export async function watchMain(config: VeselConfig) {
@@ -37,7 +37,12 @@ export async function watchMain(config: VeselConfig) {
     }
   }
 
-  const browserWindowPatcher = createBrowserWindowPatcher(config, 'dev');
+  const browserWindowPatcher = createBrowserWindowPatcher({
+    env: 'dev',
+    rendererPath: config.renderer.vite.build!.outDir!,
+    devServerPort: config.renderer.vite.server?.port || 3000,
+  });
+
   const esBuildPlugins = mainConfig.esbuild.plugins ?? [];
 
   await esbuild({

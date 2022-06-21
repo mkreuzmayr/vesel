@@ -1,13 +1,19 @@
 import { Plugin } from 'esbuild';
-import { VeselConfig } from './config';
-import { createImportPatcher } from './esbuild-plugins';
+import { createImportPatcher } from './importPatcher';
 
 type PatchEnv = 'dev' | 'build';
 
-export function createBrowserWindowPatcher(
-  config: VeselConfig,
-  env: PatchEnv
-): Plugin {
+export type BrowserWindowPatcherOptions = {
+  rendererPath: string;
+  devServerPort: number;
+  env: PatchEnv;
+};
+
+export function createBrowserWindowPatcher({
+  rendererPath,
+  devServerPort,
+  env,
+}: BrowserWindowPatcherOptions): Plugin {
   return createImportPatcher({
     moduleName: 'electron',
     importName: 'BrowserWindow',
@@ -15,9 +21,9 @@ export function createBrowserWindowPatcher(
       buildPatchFunction({
         env,
         importLine,
-        rendererPath: config.renderer.vite.build!.outDir!,
+        rendererPath,
         browserWindowVariableName: importVarName,
-        devServerPort: config.renderer.vite.server?.port || 3000,
+        devServerPort,
       }),
   });
 }
