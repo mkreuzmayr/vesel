@@ -4,7 +4,7 @@ import { builtinModules } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { UserConfig } from 'vite';
-import { externalizeDeps, replaceImportMeta } from './esBuildPlugins';
+import { externalizeDeps, replaceImportMeta } from './esbuild-plugins';
 import { dynamicImport } from './utils';
 
 export type VeselConfig = {

@@ -1,6 +1,6 @@
 import { Plugin } from 'esbuild';
 import { VeselConfig } from './config';
-import { createImportPatcher } from './esBuildPlugins';
+import { createImportPatcher } from './esbuild-plugins';
 
 type PatchEnv = 'dev' | 'build';
 
