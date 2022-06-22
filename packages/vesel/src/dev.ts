@@ -20,6 +20,13 @@ export async function watchMain(config: VeselConfig) {
     entryFile: path.join(mainConfig.outdirDev, 'index.js'),
   });
 
+  if (mainConfig.exitOnClose) {
+    electron.on('close', () => {
+      console.log('Electron instance closed manually, exiting.');
+      process.exit(0);
+    });
+  }
+
   async function copyDev(retries: number = 0) {
     try {
       await move(mainConfig.tempdir, mainConfig.outdirDev, { overwrite: true });

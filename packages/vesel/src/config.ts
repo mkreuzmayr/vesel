@@ -9,6 +9,7 @@ import { dynamicImport } from './utils';
 
 export type VeselConfig = {
   main: {
+    exitOnClose: boolean;
     outdirDev: string;
     tempdir: string;
     esbuild: BuildOptions;
@@ -31,6 +32,7 @@ export type VeselUserConfig = {
 
 const defaultConfig: VeselConfig = {
   main: {
+    exitOnClose: true,
     outdirDev: path.resolve('.vesel/dev/main'),
     tempdir: path.resolve('.vesel/tmp/main'),
     esbuild: {
