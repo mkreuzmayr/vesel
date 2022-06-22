@@ -1,6 +1,6 @@
 {
   "name": "vesel",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "Michael Kreuzmayr",
   "description": "Electron build tool powered by Vite and esbuild",
