@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { buildMain, buildRenderer } from './build';
 import { loadConfig } from './config';
 import { watchMain, watchRenderer } from './dev';
-import { previewMain, previewRenderer } from './preview';
+import { previewApp } from './preview';
 
 const cli = cac('vesel');
 
@@ -37,10 +37,7 @@ cli.command('preview', 'preview production app').action(async () => {
   const config = await loadConfig();
 
   console.log(chalk.green('Starting app...'));
-  await previewMain(config);
-
-  console.log(chalk.green('Starting renderer...'));
-  await previewRenderer(config);
+  await previewApp(config);
 });
 
 cli.help();
