@@ -1,4 +1,5 @@
 import { build as esbuild } from 'esbuild';
+import path from 'node:path';
 import { build as viteBuild } from 'vite';
 import { VeselConfig } from './config';
 import { createBrowserWindowPatcher } from './esbuild-plugins';
@@ -6,9 +7,12 @@ import { createBrowserWindowPatcher } from './esbuild-plugins';
 export async function buildMain(config: VeselConfig) {
   const mainConfig = config.main;
 
+  const mainOutDir = mainConfig.esbuild.outdir!;
+  const rendererOutDir = config.renderer.vite.build!.outDir!;
+
   const browserWindowPatcher = createBrowserWindowPatcher({
     env: 'build',
-    rendererPath: config.renderer.vite.build!.outDir!,
+    rendererPath: path.relative(mainOutDir, rendererOutDir),
     devServerPort: config.renderer.vite.server?.port || 3000,
   });
 

@@ -53,7 +53,7 @@ function buildPatchFunction(options: BuildPatchFunctionOptions) {
       let [url, ...otherArgs] = args;
 
       const webroot = '${prettyRendererPath}/';
-      url = url.replace('file://', 'file://' + webroot);
+      url = url.replace('file://', 'file://' + '/' + __dirname + '/' + webroot);
 
       return this.webContents.loadURL(url, ...otherArgs);
     };
