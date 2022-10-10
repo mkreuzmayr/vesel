@@ -22,8 +22,8 @@
   "module": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "tsup && pnpm generate-types",
-    "generate-types": "tsc --emitDeclarationOnly --esModuleInterop --declaration src/index.ts --outDir types",
+    "build": "tsup",
+    "dev": "pnpm run build -- --watch",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
@@ -50,6 +50,7 @@
     ],
     "splitting": false,
     "sourcemap": true,
+    "dts": true,
     "clean": true,
     "external": [
       "esbuild",

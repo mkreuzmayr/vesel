@@ -1,6 +1,11 @@
 {
-  "name": "vesel",
+  "name": "vesel-monorepo",
   "version": "0.0.0",
   "private": true,
-  "scripts": {}
+  "scripts": {
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "^1.5.5"
+  }
 }
