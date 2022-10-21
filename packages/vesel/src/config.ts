@@ -30,13 +30,25 @@ export type VeselUserConfig = {
   };
 };
 
+function resolveMainEntrypoints() {
+  const entrypoints = [
+    'src/main/app.ts',
+    'src/main/index.ts',
+    'src/main/preload.ts',
+  ];
+
+  return entrypoints
+    .map((entrypoint) => path.resolve(entrypoint))
+    .filter((entrypoint) => existsSync(entrypoint));
+}
+
 const defaultConfig: VeselConfig = {
   main: {
     exitOnClose: true,
     outdirDev: path.resolve('.vesel/dev/main'),
     tempdir: path.resolve('.vesel/tmp/main'),
     esbuild: {
-      entryPoints: [path.resolve('src/main/index.ts')],
+      entryPoints: resolveMainEntrypoints(),
       platform: 'node',
       bundle: true,
       external: ['electron', 'fsevents', ...builtinModules],

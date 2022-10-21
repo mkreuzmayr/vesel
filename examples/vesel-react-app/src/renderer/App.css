@@ -1,4 +1,4 @@
-.app {
+.app p {
   text-align: center;
 }
 
@@ -11,6 +11,15 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.versionList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.versionList li {
+  font-size: 15px;
 }
 
 button {
